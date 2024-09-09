@@ -3,7 +3,7 @@
 NAME=sysmonitor
 APP_PATH=/usr/share/$NAME
 SYSLOG='/var/log/sysmonitor.log'
-device='AX3000T'
+device='ax3000t'
 [ ! -f /tmp/sysmonitor.pid ] && echo 0 >/tmp/sysmonitor.pid
 
 uci_get_by_name() {
