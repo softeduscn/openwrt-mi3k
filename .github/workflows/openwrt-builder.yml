@@ -44,7 +44,6 @@ env:
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
-  TAG_NAME1: MI3K
   TZ: Asia/Shanghai
   TAG_NAME: AX3000T
 
