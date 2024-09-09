@@ -27,7 +27,7 @@ config host_list
 
 config host_list
 	option hostname 'HOME'
-	option hostip '192.168.1.120'
+	option hostip '192.168.1.118'
 
 config host_list
 	option hostname 'MI3K'
