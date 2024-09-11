@@ -162,6 +162,7 @@ firstrun() {
 #	crontab /etc/crontabs/root
 	[ ! -n "$(pgrep -f cron)" ] && /etc/init.d/cron start
 	[ ! -n "$(pgrep -f ttyd)" ] && /usr/bin/ttyd -6 /bin/login &
+	if [ -f /etc/init.d/mosdns ]; then
 	dns=$(uci_get_by_name $NAME $NAME dns 'NULL')
 	case $dns in
 	SmartDNS)
@@ -179,11 +180,13 @@ firstrun() {
 		uci commit mosdns
 		;;
 	esac
+	fi
 	touch /www/ip6.html
 #	echo '0NULL' > /tmp/default_vpn
 	touch /tmp/vpns
 	getip
 	setdns
+#	default dns=SmartDNS in selvpn
 	selvpn
 	echo '30=/usr/share/sysmonitor/sysapp.sh killtmp' >> /tmp/delay.sign
 	#modify opkg source
@@ -577,17 +580,6 @@ service_dns() {
 selvpn() {
 	vpn=$(uci_get_by_name $NAME $NAME vpntype 'VPN')
 	case $vpn in
-	WireGuard)
-		if [ "$(uci_get_by_name $NAME $NAME dns 'NULL')" == 'NULL' ]; then
-			uci set sysmonitor.sysmonitor.dns="SmartDNS"
-			uci commit sysmonitor
-		fi
-		if [ "$(ipset list ipv6_CN|wc -l)" == 0 ]; then
-			/etc/ipset-rules/ipv4_CN.sh &
-			/etc/ipset-rules/ipv6_CN.sh &
-		fi
-#		[ ! -n "$(pgrep -f mwan3)" ] && /etc/init.d/mwan3 start
-		;;
 	VPN)
 		uci set sysmonitor.sysmonitor.dns='NULL'
 		uci set sysmonitor.sysmonitor.enable='1'
@@ -595,7 +587,7 @@ selvpn() {
 #		[ -n "$(pgrep -f mwan3)" ] && /etc/init.d/mwan3 stop
 		;;
 	*)
-		uci set sysmonitor.sysmonitor.dns='NULL'
+		uci set sysmonitor.sysmonitor.dns='SmartDNS'
 		uci commit sysmonitor
 #		[ -n "$(pgrep -f mwan3)" ] && /etc/init.d/mwan3 stop
 		;;
@@ -614,14 +606,6 @@ sel_vpn() {
 	uci set sysmonitor.sysmonitor.dns="NULL"
 	uci commit sysmonitor
 	touch /tmp/sysmonitor
-}
-
-sel_wireguard() {
-	[ "$(uci_get_by_name $NAME $NAME dns 'NULL')" == "NULL" ] && uci set sysmonitor.sysmonitor.dns='SmartDNS'
-	uci set sysmonitor.sysmonitor.vpntype="WireGuard"
-	uci commit sysmonitor
-	touch /tmp/sysmonitor
-
 }
 
 close_vpn() {
@@ -1144,9 +1128,6 @@ vpn)
 	;;
 selvpn)
 	selvpn $1
-	;;
-sel_wireguard)
-	sel_wireguard
 	;;
 update_chnlist)
 	update_chnlist
