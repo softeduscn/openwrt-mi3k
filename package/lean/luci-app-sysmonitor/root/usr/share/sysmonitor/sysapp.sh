@@ -610,7 +610,7 @@ sel_vpn() {
 
 close_vpn() {
 	uci set sysmonitor.sysmonitor.vpntype="NULL"
-	uci set sysmonitor.sysmonitor.dns='NULL'
+	uci set sysmonitor.sysmonitor.dns='SmartDNS'
 	uci commit sysmonitor
 	touch /tmp/sysmonitor
 }
@@ -675,6 +675,10 @@ buttontitle)
 	[ "$(uci_get_by_name $NAME $NAME ddnslog 0)" == 1 ] && redir='log'
 #	button='<button class="button1"><a href="/cgi-bin/luci/admin/services/ttyd" target="_blank">Terminal</a></button>'
 	[ $(uci_get_by_name $NAME $NAME ddns 0) == 1 ] && [ $(uci_get_by_name $NAME $NAME vpntype 0) == 'VPN' ]  && button=$button'<br><button class="button1"><a href="/cgi-bin/luci/admin/sys/sysmonitor/sysmenu?sys=UpdateDDNS&sys1=&redir='$redir'">UpdateDDNS</a></button>'
+	dns=$(uci_get_by_name $NAME $NAME dns 'NULL')
+	if [ "$dns" != "NULL" ]; then
+		button=$button' <button class=button4 title="Close DNS"><a href="/cgi-bin/luci/admin/sys/sysmonitor/sysmenu?sys=close_dns&sys1=&redir=settings">CloseDNS</a></button>'
+	fi
 	;;
 button)
 	button=''
@@ -688,9 +692,6 @@ button)
 #	button=$button' <button class="button1"><a href="/cgi-bin/luci/admin/sys/sysmonitor/sysmenu?sys=CHNlist&sys1=&redir=settings">CHNlist Update</a></button>'
 	if [ $(uci_get_by_name $NAME $NAME vpntype 0) == 'NULL' ]; then
 	dns=$(uci_get_by_name $NAME $NAME dns 'NULL')
-	if [ "$dns" != "NULL" ]; then
-		button=$button' <button class=button2 title="Close DNS"><a href="/cgi-bin/luci/admin/sys/sysmonitor/sysmenu?sys=close_dns&sys1=&redir=settings">CloseDNS</a></button>'
-	fi
 	if [ -f /etc/init.d/smartdns ]; then
 		if [ "$(uci_get_by_name $NAME $NAME dns 'SmartDNS')" == 'SmartDNS' ]; then
 			if [ ! -n "$(pgrep -f smartdns)" ]; then
@@ -746,7 +747,7 @@ wan)
 		vpn=$(cat /tmp/regvpn|grep $vpnip|cut -d'-' -f3-)
 		vpn=${vpn:2}
 		button=$button'<BR><font color=green>'$name'-'$vpn'</font>'
-		button=$button' <button class=button2 title="Close VPN"><a href="/cgi-bin/luci/admin/sys/sysmonitor/sysmenu?sys=CloseVPN&sys1=&redir=settings">CloseVPN</a></button>'
+		button=$button' <button class=button4 title="Close VPN"><a href="/cgi-bin/luci/admin/sys/sysmonitor/sysmenu?sys=CloseVPN&sys1=&redir=settings">CloseVPN</a></button>'
 	else
 		button=$button'<font color=6699cc>gateway:'$(uci get network.wan.gateway)' </font><font color=9699cc>dns:'$(uci get network.wan.dns)'</font>'
 	fi

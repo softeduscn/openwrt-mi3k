@@ -52,20 +52,22 @@ uci set network.lan.ipaddr='192.168.88.1'
 #uci add_list network.lan.dns=$wanip
 uci commit network
 
-uci set wireless.radio0.noscan='1'
 #uci set wireless.radio0.country="CN"
+uci set wireless.radio0.noscan='1'
 uci set wireless.radio0.htmode='HE40'
 uci set wireless.radio0.channel='auto'
 uci set wireless.default_radio0.ssid=$wifiname
 uci set wireless.default_radio0.key='sonyvaiotz13w'
 uci set wireless.default_radio0.encryption='psk-mixed'
-uci set wireless.radio1.noscan='1'
 #uci set wireless.radio1.country="CN"
+uci set wireless.radio1.noscan='1'
 uci set wireless.radio1.htmode='HE80'
-uci set wireless.radio1.channel='auto'
+uci set wireless.radio1.channel='36'
+uci set wireless.radio1.cell_density=3
 uci set wireless.default_radio1.ssid=$wifiname
 uci set wireless.default_radio1.key='sonyvaiotz13w'
 uci set wireless.default_radio1.encryption='psk-mixed'
+
 uci commit wireless
 
 uci set firewall.@defaults[0].flow_offloading='1'
