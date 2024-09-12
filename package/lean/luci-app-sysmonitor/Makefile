@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=LuCI support for luci-app-sysmonitor
-LUCI_DEPENDS:=+ttyd +kmod-tcp-bbr +qrencode +luci-lib-fs +luci-proto-ipv6 +wget +ip6tables +libip6tc +kmod-ipt-nat6 +odhcp6c +bind-dig
+LUCI_DEPENDS:=+ttyd +kmod-tcp-bbr +qrencode +luci-proto-ipv6 +wget +ip6tables +libip6tc +kmod-ipt-nat6 +odhcp6c +bind-dig
 LUCI_PKGARCH:=all
 PKG_VERSION:=1.0
 PKG_RELEASE:=1
