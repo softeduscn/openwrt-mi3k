@@ -87,7 +87,8 @@ check_ip() {
 }
 
 set_static() {
-	ip=$(ip -o -4 addr list wan| cut -d ' ' -f7)
+	ifname=$(uci get network.wan.device)
+	ip=$(ip -o -4 addr list $ifname| cut -d ' ' -f7)
 	wanip=$(echo $ip|cut -d'/' -f1)
 	netmask=$(mask $(echo $ip|cut -d'/' -f2))
 	gateway=$(check_ip $(ip route|grep default|cut -d' ' -f3))
@@ -306,7 +307,8 @@ while [ "1" == "1" ]; do
 						case $num in
 							2)
 							[ -f /tmp/test.$i ] && rm /tmp/test.$i
-							ip=$(ip -o -4 addr list wan| cut -d ' ' -f7)
+							ifname=$(uci get network.wan.device)
+							ip=$(ip -o -4 addr list $ifname| cut -d ' ' -f7)
 							wanip=$(echo $ip|cut -d'/' -f1)
 							echo '9test-'$i |netcat -nc $wanip 55555
 							;;
@@ -331,7 +333,8 @@ while [ "1" == "1" ]; do
 		done
 		if [ -f /tmp/wan6.sign ]; then
 			rm /tmp/wan6.sign
-			ipv6=$(ip -o -6 addr list wan|cut -d ' ' -f7)
+			ifname=$(uci get network.wan.device)
+			ipv6=$(ip -o -6 addr list $ifname|cut -d ' ' -f7)
 			cat /www/ip6.html | grep $(echo $ipv6|cut -d'/' -f1 |head -n1) > /dev/null
 			[  $? -ne 0 ] && {
 				[ "$(uci_get_by_name $NAME $NAME syslog)" == 1 ] && echolog "ip6="$ipv6

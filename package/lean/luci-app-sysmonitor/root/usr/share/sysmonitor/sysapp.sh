@@ -309,13 +309,15 @@ wg() {
 }
 
 getip() {
-	ip=$(ip -o -4 addr list wan| cut -d ' ' -f7|cut -d'/' -f1)
+	ifname=$(uci get network.wan.device)
+	ip=$(ip -o -4 addr list $ifname| cut -d ' ' -f7|cut -d'/' -f1)
 	echo $ip >/www/ip.html
 	echo $ip
 }
 
 getip6() {
-	ip=$(ip -o -6 addr list wan | cut -d ' ' -f7 | cut -d'/' -f1 |head -n1)
+	ifname=$(uci get network.wan.device)
+	ip=$(ip -o -6 addr list $ifname | cut -d ' ' -f7 | cut -d'/' -f1 |head -n1)
 	echo $ip >/www/ip6.html
 	echo $ip
 }
