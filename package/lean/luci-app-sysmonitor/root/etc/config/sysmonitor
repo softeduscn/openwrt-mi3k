@@ -22,7 +22,7 @@ config sysmonitor 'sysmonitor'
 	option firmware 'https://github.com/softeduscn/openwrt-mi3k/releases/download/AX3000T/openwrt-mediatek-filogic-xiaomi_mi-router-ax3000t-squashfs-sysupgrade.bin'
 
 config host_list
-	option hostname 'MAST'
+	option hostname 'R3P'
 	option hostip '192.168.1.119'
 
 config host_list
