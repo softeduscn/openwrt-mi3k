@@ -46,6 +46,7 @@ fi
 #uci set network.wan6.metric='2'
 
 uci add_list network.@device[0].ports='wan'
+uci add_list network.@device[0].ports='wgmain'
 uci set network.lan.device='br-lan.1'
 uci set network.wan.device='br-lan.2'
 uci set network.wan6.device='br-lan.2'
@@ -103,10 +104,8 @@ config zone
 	option input 'ACCEPT'
 	option output 'ACCEPT'
 	option forward 'REJECT'
-
-config forwarding
-	option dest 'wan'
-	option src 'wgmain'
+	option masq '1'
+	option mtu_fix '1'
 EOF
 fi
 
@@ -115,6 +114,7 @@ config bridge-vlan
 	option device 'br-lan'
 	option vlan '1'
 	list ports 'lan2'
+	list ports 'wgmain'
 
 config bridge-vlan
 	option device 'br-lan'
