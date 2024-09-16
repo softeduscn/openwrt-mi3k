@@ -103,7 +103,7 @@ config zone
 	option network 'wgmain'
 	option input 'ACCEPT'
 	option output 'ACCEPT'
-	option forward 'REJECT'
+	option forward 'ACCEPT'
 	option masq '1'
 	option mtu_fix '1'
 EOF
