@@ -88,7 +88,7 @@ uci set firewall.@zone[1].output='ACCEPT'
 uci set firewall.@zone[1].forward='REJECT'
 uci commit firewall
 
-cat /etc/config/firewall | grep wgmi3k > /dev/null
+cat /etc/config/firewall | grep wgmain > /dev/null
 if [ $? -ne 0 ];then
 cat >> /etc/config/firewall <<EOF
 config rule
@@ -98,15 +98,15 @@ config rule
 	option target 'ACCEPT'
 
 config zone
-	option name 'wgmi3k'
-	option network 'wgmi3k'
+	option name 'wgmain'
+	option network 'wgmain'
 	option input 'ACCEPT'
 	option output 'ACCEPT'
 	option forward 'REJECT'
 
 config forwarding
 	option dest 'wan'
-	option src 'wgmi3k'
+	option src 'wgmain'
 EOF
 fi
 
@@ -123,31 +123,31 @@ config bridge-vlan
 	list ports 'lan4'
 	list ports 'wan'
 	
-config interface 'wgmi3k'
+config interface 'wgmain'
 	option proto 'wireguard'
 	option private_key 'iCwIGHnty/G/FhFNm0SQFCFTA6xtRc8mLjKCZ5YCvEU='
 	list addresses '192.168.9.1'
 	option listen_port '58888'
 
-config wireguard_wgmi3k
+config wireguard_wgmain
 	option public_key 'RuCdaOHKPDf2c2kihx2dzBhEDKZnbnhP1N4aUBkzw3A='
 	option route_allowed_ips '1'
 	list allowed_ips '192.168.9.11'
 	option description 'Iphone8Plus'
 
-config wireguard_wgmi3k
+config wireguard_wgmain
 	option public_key 'ql9g9ngGQMq9cyBaun5QjnyROyh7Cu4zJ9eZwFM6UGw='
 	option route_allowed_ips '1'
 	list allowed_ips '192.168.9.13'
 	option description 'Iphone8'
 
-config wireguard_wgmi3k
+config wireguard_wgmain
 	option public_key 'HkRSRzDMks74AmFQlnByouVNR6E/o5I+j033QqF1UyI='
 	option route_allowed_ips '1'
 	list allowed_ips '192.168.9.12'
 	option description 'Iphone7'
 	
-config wireguard_wgmi3k
+config wireguard_wgmain
 	option public_key 'Lxpb8EOqhK7Wz8TuAgfPcJ/NvjNcEbzcblru/OMZIGE='
 	option route_allowed_ips '1'
 	list allowed_ips '192.168.9.10'
