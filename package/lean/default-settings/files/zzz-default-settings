@@ -50,7 +50,7 @@ uci add_list network.@device[0].ports='wgmain'
 uci set network.lan.device='br-lan.1'
 uci set network.wan.device='br-lan.2'
 uci set network.wan6.device='br-lan.2'
-uci set network.lan.ipaddr='192.168.88.1'
+uci set network.lan.ipaddr='192.168.89.1'
 #uci set network.lan.force_link='0'
 #uci set network.lan.delegate='1'
 #uci del network.lan.dns
@@ -110,6 +110,14 @@ EOF
 fi
 
 cat >> /etc/config/network <<EOF
+config device
+	option name 'phy0-ap0'
+	option ipv6 '1'
+
+config device
+	option name 'phy1-ap0'
+	option ipv6 '1'
+
 config bridge-vlan
 	option device 'br-lan'
 	option vlan '1'
@@ -291,7 +299,7 @@ config ttyd
 	option ipv6 '1'
 EOF
 }
-
+[ ! -f /etc/crontabs/root ] && touch /etc/crontabs/root
 [ -f /www/tinyfilemanager/index.php ] && sed -i s/'"lang":"en"'/'"lang":"zh-CN"'/ /www/tinyfilemanager/index.php
 
 #sed -i '/dhcp-option/d' /etc/dnsmasq.conf
