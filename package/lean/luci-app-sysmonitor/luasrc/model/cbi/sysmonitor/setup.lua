@@ -64,7 +64,7 @@ o.rmempty = false
 
 --o = s:option(Value, translate("firmware"), translate("Firmware Address"))
 --o.description = translate("Firmeware download Address)")
---o.default = "https://github.com/softeduscn/Actions-openwrt1907-4300/releases/download/WNDR-4300/openwrt-ar71xx-nand-wndr4300-squashfs-sysupgrade.tar"
+--o.default = "https://github.com/softeduscn/Actions-openwrt-mi3k/releases/download/WNDR-4300/openwrt-ar71xx-nand-wndr4300-squashfs-sysupgrade.tar"
 --o.rmempty = false
 
 o = s:option(DynamicList, "dnslist", translate("DNS List"))
